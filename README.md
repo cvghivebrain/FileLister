@@ -22,9 +22,9 @@ Hashtag | Example | Meaning
 #size | 12345 | File size in bytes
 #date | 2020-12-25 | Date last modified
 #created | 2005-12-25 | Creation date
-#sha1 | | [SHA1](http://en.wikipedia.org/SHA1)
-#md5 | | [MD5](http://en.wikipedia.org/MD5)
-#crc32 | | [CRC32](http://en.wikipedia.org/CRC32)
+#sha1 | | [SHA-1](http://en.wikipedia.org/wiki/SHA-1)
+#md5 | | [MD5](http://en.wikipedia.org/wiki/MD5)
+#crc32 | | [CRC32](http://en.wikipedia.org/wiki/CRC32)
 #percent | % | Using this character directly breaks the batch file
 #qm | " | Using this character directly breaks the batch file
-## | # | For example ##name outputs #name without replacing it with file name
+\## | # | For example ##name outputs #name without replacing it with file name
