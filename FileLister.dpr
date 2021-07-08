@@ -11,6 +11,7 @@ var
   s, t: string;
   u: TSystemTime;
   n, n2: integer;
+  basefolder: string;
   folders: array of string;
   crctable: array[0..255] of longint;
   md5table: array[0..63] of longword;
@@ -257,16 +258,17 @@ begin
 
   { Generate a list of all folders (and subfolders) in folders array. }
   SetLength(folders,1);
+  basefolder := ParamStr(1)+'\'; // Get target folder.
   n := 0;
-  while n < Length(folders) do
+  while (n < Length(folders)) and (ParamStr(4) <> '-e') do // Don't add subfolders if -e is set.
     begin
-    if (FindFirst(ParamStr(1)+'\'+folders[n]+'*.*', faDirectory, rec) = 0) then
+    if (FindFirst(basefolder+folders[n]+'*.*', faDirectory, rec) = 0) then
       begin
       repeat
       if (rec.Name<>'.') and (rec.Name<>'..') and ((rec.attr and faDirectory)=faDirectory) then
         begin
-        SetLength(folders,Length(folders)+1); // add 1 slot for folder name.
-        folders[Length(folders)-1] := folders[n]+rec.Name+'\'; // add folder name to array.
+        SetLength(folders,Length(folders)+1); // Add 1 slot for folder name.
+        folders[Length(folders)-1] := folders[n]+rec.Name+'\'; // Add folder name to array.
         end;
       until FindNext(rec) <>0;
       FindClose(rec);
@@ -283,7 +285,7 @@ begin
 
   for n := 0 to Length(folders)-1 do
     begin
-    if FindFirst(ParamStr(1)+'\'+folders[n]+'*.*', faAnyFile-faDirectory, rec) = 0 then
+    if FindFirst(basefolder+folders[n]+'*.*', faAnyFile-faDirectory, rec) = 0 then
       begin
       repeat
         begin
@@ -292,6 +294,8 @@ begin
         t := ExtractFileExt(rec.Name);
         Delete(t,1,1);
         s := ReplaceStr(s,'#ext',t); // replace #ext with file extension.
+        s := ReplaceStr(s,'#drive',ExtractFileDrive(basefolder)+'\'); // replace #drive with drive letter.
+        s := ReplaceStr(s,'#basefolder',basefolder); // replace #basefolder with base folder name.
         s := ReplaceStr(s,'#folder',folders[n]); // replace #folder with folder name.
         s := ReplaceStr(s,'#size',inttostr(rec.Size)); // replace #size with file size.
         t := DateToStr(FileDateToDateTime(rec.Time));
@@ -319,6 +323,7 @@ begin
 
         s := ReplaceStr(s,'#percent','%'); // Replace #percent string with %.
         s := ReplaceStr(s,'#qm','"'); // Replace #qm string with ".
+        s := ReplaceStr(s,'#quote','"'); // Replace #quote string with ".
         s := ReplaceStr(s,'hashgoeshere','#'); // Replace temp string with #.
         WriteLn(outfile, s); // Write final string to text file.
         end;

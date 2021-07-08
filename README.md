@@ -10,6 +10,8 @@ The batch file must contain the following line:
 
     FileLister.exe "%1" "<text file>" "<list format>"
 
+Add -e to the end to exclude subfolders.
+
 ### List format
 
 The list format can contain any text you want, with hashtags that are replaced with file-specific information.
@@ -18,13 +20,15 @@ Hashtag | Example | Meaning
 ------- | ------- | -------
 #name | file.exe | File name
 #ext | exe | File extension
-#folder | subfolder/subsubfolder/ | Subfolder path (excluding main folder)
+#folder | subfolder\subsubfolder\ | Subfolder path (excluding main folder)
+#basefolder | C:\folder\ | Main folder path
+#drive | C:\ | Drive letter
 #size | 12345 | File size in bytes
-#date | 2020-12-25 | Date last modified
-#created | 2005-12-25 | Creation date
+#date | 2020-01-01 | Date last modified
+#created | 2005-01-01 | Creation date
 #sha1 | | [SHA-1](http://en.wikipedia.org/wiki/SHA-1)
 #md5 | | [MD5](http://en.wikipedia.org/wiki/MD5)
 #crc32 | | [CRC32](http://en.wikipedia.org/wiki/CRC32)
 #percent | % | Using this character directly breaks the batch file
-#qm | " | Using this character directly breaks the batch file
-\## | # | For example ##name outputs #name without replacing it with file name
+#qm<br>#quote | " | Using this character directly breaks the batch file
+\## | # | Hash symbol without invoking another hashtag
