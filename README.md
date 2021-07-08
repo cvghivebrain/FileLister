@@ -4,7 +4,7 @@ FileLister is a command line program that lists files and their attributes in a 
 
 ## Usage
 
-Drag a folder onto the batch file "DragFolderHere.bat" to list its files (including those in subfolders.
+Drag a folder onto the batch file "DragFolderHere.bat" to list the files in that folder (including those in subfolders).
 
 The batch file must contain the following line:
 
